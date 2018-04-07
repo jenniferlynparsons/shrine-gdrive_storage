@@ -18,13 +18,15 @@ class Shrine
         s = StringIO.new
         s.write(io.read)
         s.rewind
+
+        file_metadata = {title: io.metadata['filename']}
         google_api_client.create_file(
           { name: id,
-            title: io.metadata['filename'],
             mime_type: 'application/vnd.google-apps.document',
             parents: [@drive_public_folder_id]
           },
-          fields: 'id, name, title',
+          file_metadata,
+          fields: 'id, name',
           upload_source: s,
           content_type: shrine_metadata['mime_type']
         )
