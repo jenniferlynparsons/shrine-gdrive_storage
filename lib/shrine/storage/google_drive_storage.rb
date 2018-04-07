@@ -19,7 +19,7 @@ class Shrine
         s.write(io.read)
         s.rewind
         google_api_client.create_file(
-          { name: id,
+          { name: io.metadata['filename'],
             mime_type: 'application/vnd.google-apps.document',
             parents: [@drive_public_folder_id]
           },
