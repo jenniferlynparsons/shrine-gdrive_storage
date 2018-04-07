@@ -15,15 +15,19 @@ class Shrine
 
       def upload(io, id, shrine_metadata: {}, **_options)
         mime_type = io.metadata['mime_type'] rescue 'image/jpeg'
-
+        file_metadata = {
+            title: io.metadata['name'],
+            mime_type: 'application/vnd.google-apps.document'
+        }
         s = StringIO.new
         s.write(io.read)
         s.rewind
-        google_api_client.create_file(
+        google_api_client.insert_file(
           { name: id,
             mime_type: mime_type,
             parents: [@drive_public_folder_id]
           },
+          file_metadata,
           fields: 'id, name',
           upload_source: s,
           content_type: shrine_metadata['mime_type']
