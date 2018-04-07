@@ -24,7 +24,7 @@ class Shrine
             mime_type: 'application/vnd.google-apps.document',
             parents: [@drive_public_folder_id]
           },
-          fields: 'id, name',
+          fields: 'id, name, title',
           upload_source: s,
           content_type: shrine_metadata['mime_type']
         )
