@@ -19,19 +19,18 @@ class Shrine
         s.write(io.read)
         s.rewind
 
-        file_metadata = {title: io.metadata['filename']}
+        originalFilename = {title: io.metadata['filename']}
         google_api_client.create_file(
-          { name: id,
+          { name: io.metadata['filename'],
             mime_type: 'application/vnd.google-apps.document',
             parents: [@drive_public_folder_id]
           },
-          file_metadata,
-          fields: 'id, name',
+          fields: 'id, name, originalFilename',
           upload_source: s,
           content_type: shrine_metadata['mime_type']
         )
 
-        message = "Uploaded file #{id}"
+        message = "Uploaded file #{io.metadata['filename']}"
       end
 
       def exists?(id)
